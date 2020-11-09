@@ -57,8 +57,7 @@ references:
 
 # Short description of this project
 description: |-
-  This is `terraform-aws-security-hub` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
+  Terraform module to deploy [AWS Security Hub](https://aws.amazon.com/security-hub/).
 
 # Introduction to the project
 #introduction: |-
