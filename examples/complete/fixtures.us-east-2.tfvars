@@ -1,10 +1,3 @@
 region = "us-east-2"
 
-namespace = "eg"
-
-environment = "ue2"
-
-stage = "test"
-
-name = "example"
-
+enable_cis_1_2_0 = true
