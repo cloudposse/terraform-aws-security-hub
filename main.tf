@@ -66,7 +66,7 @@ locals {
   imported_findings_notification_arn = local.enable_notifications ? var.imported_findings_notification_arn != null ? var.imported_findings_notification_arn : module.sns_topic[0].sns_topic.arn : null
   enabled_standards_arns = toset([
     for standard in var.enabled_standards :
-    "arn:${data.aws_partition.this.partition}:securityhub:${length(regexall("ruleset", standard)) == 0 ? data.aws_region.this.name : ""}::${standard}"
+    format("arn:%s:securityhub:%s::%s", data.aws_partition.this.partition, length(regexall("ruleset", standard)) == 0 ? data.aws_region.this.name : "", standard)
   ])
 }
 
