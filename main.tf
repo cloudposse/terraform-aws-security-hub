@@ -1,28 +1,74 @@
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Subscribe the Acccount to Security Hub
-# -----------------------------------------------------------------------------------------------------------------------
-resource "aws_securityhub_account" "enable_us_east_1" {
+#-----------------------------------------------------------------------------------------------------------------------
+resource "aws_securityhub_account" "this" {
   count = module.this.enabled ? 1 : 0
 }
 
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Optionally subscribe to Security Hub Standards 
 # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html
-# -----------------------------------------------------------------------------------------------------------------------
-resource "aws_securityhub_standards_subscription" "enable_cis_1_2_0" {
-  count         = module.this.enabled && var.enable_cis_1_2_0 ? 1 : 0
-  depends_on    = [aws_securityhub_account.enable_us_east_1]
-  standards_arn = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
+#
+# arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0
+# arn:aws:securityhub:us-east-1::standards/aws-foundational-security-best-practices/v/1.0.0
+# arn:aws:securityhub:us-east-1::standards/pci-dss/v/3.2.1
+#-----------------------------------------------------------------------------------------------------------------------
+resource "aws_securityhub_standards_subscription" "this" {
+  for_each      = local.enabled_standards_arns
+  depends_on    = [aws_securityhub_account.this]
+  standards_arn = each.key
 }
 
-resource "aws_securityhub_standards_subscription" "enable_foundations_1_0_0" {
-  count         = module.this.enabled && var.enable_foundations_1_0_0 ? 1 : 0
-  depends_on    = [aws_securityhub_account.enable_us_east_1]
-  standards_arn = "arn:aws:securityhub:us-east-1::standards/aws-foundational-security-best-practices/v/1.0.0"
+#-----------------------------------------------------------------------------------------------------------------------
+# Optionally configure Event Bridge Rules and SNS subscriptions 
+# https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
+#-----------------------------------------------------------------------------------------------------------------------
+module "sns_topic" {
+  source = "git::https://github.com/cloudposse/terraform-aws-sns-topic.git?ref=tags/0.9.0"
+  count  = local.create_sns_topic ? 1 : 0
+
+  context         = module.this.context
+  subscribers     = {}
+  sqs_dlq_enabled = false
 }
 
-resource "aws_securityhub_standards_subscription" "enable_pci_dss_3_2_1" {
-  count         = module.this.enabled && var.enable_pci_dss_3_2_1 ? 1 : 0
-  depends_on    = [aws_securityhub_account.enable_us_east_1]
-  standards_arn = "arn:aws:securityhub:us-east-1::standards/pci-dss/v/3.2.1"
+resource "aws_cloudwatch_event_rule" "imported_findings" {
+  count       = local.enable_notifications == true ? 1 : 0
+  name        = "${module.this.id}-imported-findings"
+  description = "SecurityHubEvent - Imported Findings"
+  tags        = module.this.tags
+
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.securityhub"
+  ],
+  "detail-type": [
+    "Security Hub Findings - Imported"
+  ]
 }
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "imported_findings" {
+  count     = local.enable_notifications == true ? 1 : 0
+  rule      = aws_cloudwatch_event_rule.imported_findings[0].name
+  target_id = "SendToSNS"
+  arn       = local.imported_findings_notification_arn
+}
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Locals and Data References
+#-----------------------------------------------------------------------------------------------------------------------
+locals {
+  enable_notifications               = module.this.enabled && (var.create_sns_topic || var.imported_findings_notification_arn != null)
+  create_sns_topic                   = module.this.enabled && var.create_sns_topic
+  imported_findings_notification_arn = local.enable_notifications ? var.imported_findings_notification_arn != null ? var.imported_findings_notification_arn : module.sns_topic[0].sns_topic.arn : null
+  enabled_standards_arns = toset([
+    for standard in var.enabled_standards :
+    "arn:${data.aws_partition.this.partition}:securityhub:${length(regexall("ruleset", standard)) == 0 ? data.aws_region.this.name : ""}::${standard}"
+  ])
+}
+
+data "aws_partition" "this" {}
+data "aws_region" "this" {}
