@@ -65,4 +65,13 @@ variable "imported_findings_notification_arn" {
   type        = string
 }
 
+variable "cloudwatch_event_rule_pattern_detail_type" {
+  description = <<DOC
+  The detail-type pattern used to match events that will be sent to SNS. 
 
+  For more information, see:
+  https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
+  DOC
+  type        = string
+  default     = "Security Hub Findings - Imported"
+}

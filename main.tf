@@ -40,7 +40,7 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
         "aws.securityhub"
       ],
       "detail-type" : [
-        "Security Hub Findings - Imported"
+        var.cloudwatch_event_rule_pattern_detail_type
       ]
     }
   )
