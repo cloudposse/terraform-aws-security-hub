@@ -8,10 +8,6 @@ resource "aws_securityhub_account" "this" {
 #-----------------------------------------------------------------------------------------------------------------------
 # Optionally subscribe to Security Hub Standards 
 # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html
-#
-# arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0
-# arn:aws:securityhub:us-east-1::standards/aws-foundational-security-best-practices/v/1.0.0
-# arn:aws:securityhub:us-east-1::standards/pci-dss/v/3.2.1
 #-----------------------------------------------------------------------------------------------------------------------
 resource "aws_securityhub_standards_subscription" "this" {
   for_each      = local.enabled_standards_arns
