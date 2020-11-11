@@ -23,14 +23,22 @@ module "sns_topic" {
   source = "git::https://github.com/cloudposse/terraform-aws-sns-topic.git?ref=tags/0.9.0"
   count  = local.create_sns_topic ? 1 : 0
 
+  attributes      = ["securityhub-sns-topic"]
   context         = module.this.context
   subscribers     = {}
   sqs_dlq_enabled = false
 }
 
+module "imported_findings_label" {
+  source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.21.0"
+
+  attributes = ["securityhub-imported-findings"]
+  context    = module.this.context
+}
+
 resource "aws_cloudwatch_event_rule" "imported_findings" {
   count       = local.enable_notifications == true ? 1 : 0
-  name        = "${module.this.id}-imported-findings"
+  name        = module.imported_findings_label.id
   description = "SecurityHubEvent - Imported Findings"
   tags        = module.this.tags
 
@@ -47,10 +55,9 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
 }
 
 resource "aws_cloudwatch_event_target" "imported_findings" {
-  count     = local.enable_notifications == true ? 1 : 0
-  rule      = aws_cloudwatch_event_rule.imported_findings[0].name
-  target_id = "SendToSNS"
-  arn       = local.imported_findings_notification_arn
+  count = local.enable_notifications == true ? 1 : 0
+  rule  = aws_cloudwatch_event_rule.imported_findings[0].name
+  arn   = local.imported_findings_notification_arn
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
