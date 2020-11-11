@@ -60,17 +60,26 @@ description: |-
   Terraform module to deploy [AWS Security Hub](https://aws.amazon.com/security-hub/).
 
 # Introduction to the project
-#introduction: |-
-#  This is an introduction.
+introduction: |-
+  This module enables AWS Security Hub in one region of one account and optionally sets up a SNS topic to receive 
+  notifications of its findings.
 
 # How to use this module. Should be an easy example to copy and paste.
 usage: |-
   Here's how to invoke this example module in your projects
 
   ```hcl
-  module "example" {
+  module "securityhub" {
     source = "https://github.com/cloudposse/terraform-aws-security-hub.git?ref=master"
-    example = "Hello world!"
+    
+    create_sns_topic = true
+    subscribers = {
+      opsgenie = {
+        protocol = "https"
+        endpoint = "https://api.example.com/v1/"
+        endpoint_auto_confirms = true
+      }
+    }
   }
   ```
 
