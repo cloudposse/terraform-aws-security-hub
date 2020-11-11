@@ -38,16 +38,16 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
   description = "SecurityHubEvent - Imported Findings"
   tags        = module.this.tags
 
-  event_pattern = <<PATTERN
-{
-  "source": [
-    "aws.securityhub"
-  ],
-  "detail-type": [
-    "Security Hub Findings - Imported"
-  ]
-}
-PATTERN
+  event_pattern = jsonencode(
+    {
+      "source" : [
+        "aws.securityhub"
+      ],
+      "detail-type" : [
+        "Security Hub Findings - Imported"
+      ]
+    }
+  )
 }
 
 resource "aws_cloudwatch_event_target" "imported_findings" {
