@@ -36,6 +36,10 @@
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| enabled\_subscriptions | --------------------------------------------------------------------------------------------------------------------- MODULE OUTPUTS --------------------------------------------------------------------------------------------------------------------- |
+| sns\_topic | The SNS topic that was created |
+| sns\_topic\_subscriptions | The SNS topic that was created |
 
 <!-- markdownlint-restore -->
