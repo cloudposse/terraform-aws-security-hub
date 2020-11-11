@@ -53,7 +53,13 @@ variable "subscribers" {
     endpoint               = string
     endpoint_auto_confirms = bool
   }))
-  description = "Configuration for subscibres to SNS topic. This is only used if create_sns_topic is true."
+  description = <<-
+    Configuration for subscibres to SNS topic. This is only used if create_sns_topic is true.
+    A map of subscription configurations for SNS topics
+
+   For more information, see:
+     https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription#argument-reference
+   etc....
   default     = {}
 }
 
@@ -66,6 +72,5 @@ variable "imported_findings_notification_arn" {
   default     = null
   type        = string
 }
-
 
 
