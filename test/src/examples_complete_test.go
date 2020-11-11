@@ -24,8 +24,9 @@ func TestExamplesComplete(t *testing.T) {
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
 		Vars: map[string]interface{}{
-			"attributes":       attributes,
-			"enable_cis_1_2_0": true,
+			"attributes":        attributes,
+			"create_sns_topic":  true,
+			"enabled_standards": []string{"standards/aws-foundational-security-best-practices/v/1.0.0", "ruleset/cis-aws-foundations-benchmark/v/1.2.0"},
 		},
 	}
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created

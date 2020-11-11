@@ -5,6 +5,7 @@ provider "aws" {
 module "example" {
   source = "../.."
 
-  enable_cis_1_2_0 = var.enable_cis_1_2_0
-  context          = module.this.context
+  context           = module.this.context
+  enabled_standards = var.enabled_standards
+  create_sns_topic  = var.create_sns_topic
 }
