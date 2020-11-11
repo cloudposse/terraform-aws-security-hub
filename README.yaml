@@ -61,7 +61,7 @@ description: |-
 
 # Introduction to the project
 introduction: |-
-  This module enables AWS Security Hub in one region of one account and optionally sets up a SNS topic to receive 
+  This module enables AWS Security Hub in one region of one account and optionally sets up an SNS topic to receive 
   notifications of its findings.
 
 # How to use this module. Should be an easy example to copy and paste.
