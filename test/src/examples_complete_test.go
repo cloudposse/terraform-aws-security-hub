@@ -3,11 +3,21 @@ package test
 import (
 	"math/rand"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
+
+func listContains(s []string, e string) bool {
+	for _, a := range s {
+		if a == e || strings.Contains(a, e) {
+			return true
+		}
+	}
+	return false
+}
 
 // Test the Terraform module in examples/complete using Terratest.
 func TestExamplesComplete(t *testing.T) {
@@ -41,8 +51,8 @@ func TestExamplesComplete(t *testing.T) {
 	snsTopic := terraform.OutputMap(t, terraformOptions, "sns_topic")
 
 	// Verify we're getting back the outputs we expect
-	assert.Contains(t, enabledStandards, "arn:aws:securityhub:us-east-2:226010001608:subscription/cis-aws-foundations-benchmark/v/1.2.0")
-	assert.Contains(t, enabledStandards, "arn:aws:securityhub:us-east-2:226010001608:subscription/aws-foundational-security-best-practices/v/1.0.0")
+	assert.True(t, listContains(enabledStandards, "subscription/cis-aws-foundations-benchmark/v/1.2.0"))
+	assert.True(t, listContains(enabledStandards, "subscription/aws-foundational-security-best-practices/v/1.0.0"))
 	assert.Contains(t, snsTopic, "id")
 	assert.Greater(t, len(snsTopic["id"]), 0)
 }
