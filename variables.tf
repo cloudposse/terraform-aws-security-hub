@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 
 variable "enabled_standards" {
-  description = <<DOC
+  description = <<-DOC
   A list of standards/rulesets to enable
 
   See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription#argument-reference
@@ -20,7 +20,7 @@ variable "enabled_standards" {
 }
 
 variable "create_sns_topic" {
-  description = <<DOC
+  description = <<-DOC
   Flag to indicate whether an SNS topic should be created for notifications
 
   If you want to send findings to a new SNS topic, set this to true and provide a valid configuration for subscribers
@@ -36,7 +36,7 @@ variable "subscribers" {
     endpoint               = string
     endpoint_auto_confirms = bool
   }))
-  description = <<DOC
+  description = <<-DOC
   A map of subscription configurations for SNS topics
     
   For more information, see:
@@ -55,7 +55,7 @@ variable "subscribers" {
 }
 
 variable "imported_findings_notification_arn" {
-  description = <<DOC
+  description = <<-DOC
   The ARN for an SNS topic to send findings notifications to. This is only used if create_sns_topic is false.
 
   If you want to send findings to an existing SNS topic, set the value of this to the ARN of the existing topic and set 
@@ -66,7 +66,7 @@ variable "imported_findings_notification_arn" {
 }
 
 variable "cloudwatch_event_rule_pattern_detail_type" {
-  description = <<DOC
+  description = <<-DOC
   The detail-type pattern used to match events that will be sent to SNS. 
 
   For more information, see:
