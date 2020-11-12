@@ -24,7 +24,7 @@ module "sns_topic" {
   version = "0.9.0"
   count   = local.create_sns_topic ? 1 : 0
 
-  attributes      = ["securityhub-sns-topic"]
+  attributes      = ["securityhub"]
   context         = module.this.context
   subscribers     = {}
   sqs_dlq_enabled = false
