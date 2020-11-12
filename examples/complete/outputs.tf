@@ -2,7 +2,7 @@
 # MODULE OUTPUTS
 # ---------------------------------------------------------------------------------------------------------------------
 output "enabled_subscriptions" {
-  description = "ID of the created example"
+  description = "Enabled subscriptions"
   value       = module.example.enabled_subscriptions
 }
 
