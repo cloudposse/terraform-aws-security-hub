@@ -70,7 +70,12 @@ notifications of its findings.
 Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-aws-security-hub/releases).
 
 
-Here's how to invoke this example module in your projects
+
+For a complete example, see [examples/complete](examples/complete).
+
+For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest) (which tests and deploys the example on AWS), see [test](test).
+
+Here's how to invoke this module in your projects:
 
 ```hcl
 module "securityhub" {
