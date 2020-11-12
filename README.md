@@ -150,7 +150,7 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| enabled\_subscriptions | --------------------------------------------------------------------------------------------------------------------- MODULE OUTPUTS --------------------------------------------------------------------------------------------------------------------- |
+| enabled\_subscriptions | A list of subscriptions that have been enabled |
 | sns\_topic | The SNS topic that was created |
 | sns\_topic\_subscriptions | The SNS topic that was created |
 
