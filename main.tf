@@ -68,7 +68,7 @@ resource "aws_cloudwatch_event_target" "imported_findings" {
 locals {
   enable_notifications               = module.this.enabled && (var.create_sns_topic || var.imported_findings_notification_arn != null)
   create_sns_topic                   = module.this.enabled && var.create_sns_topic
-  imported_findings_notification_arn = local.enable_notifications ? var.imported_findings_notification_arn != null ? var.imported_findings_notification_arn : module.sns_topic[0].sns_topic.arn : null
+  imported_findings_notification_arn = local.enable_notifications ? (var.imported_findings_notification_arn != null ? var.imported_findings_notification_arn : module.sns_topic[0].sns_topic.arn) : null
   enabled_standards_arns = toset([
     for standard in var.enabled_standards :
     format("arn:%s:securityhub:%s::%s", data.aws_partition.this.partition, length(regexall("ruleset", standard)) == 0 ? data.aws_region.this.name : "", standard)
