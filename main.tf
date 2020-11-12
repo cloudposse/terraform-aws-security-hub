@@ -20,8 +20,9 @@ resource "aws_securityhub_standards_subscription" "this" {
 # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
 #-----------------------------------------------------------------------------------------------------------------------
 module "sns_topic" {
-  source = "git::https://github.com/cloudposse/terraform-aws-sns-topic.git?ref=tags/0.9.0"
-  count  = local.create_sns_topic ? 1 : 0
+  source  = "cloudposse/sns-topic/aws"
+  version = "0.9.0"
+  count   = local.create_sns_topic ? 1 : 0
 
   attributes      = ["securityhub-sns-topic"]
   context         = module.this.context
@@ -30,7 +31,8 @@ module "sns_topic" {
 }
 
 module "imported_findings_label" {
-  source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.21.0"
+  source  = "cloudposse/label/null"
+  version = "0.21.0"
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context

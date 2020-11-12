@@ -70,7 +70,7 @@ usage: |-
 
   ```hcl
   module "securityhub" {
-    source = "https://github.com/cloudposse/terraform-aws-security-hub.git?ref=master"
+    source = "cloudposse/security-hub/aws"
     
     create_sns_topic = true
     subscribers = {

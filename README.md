@@ -74,7 +74,7 @@ Here's how to invoke this example module in your projects
 
 ```hcl
 module "securityhub" {
-  source = "https://github.com/cloudposse/terraform-aws-security-hub.git?ref=master"
+  source = "cloudposse/security-hub/aws"
   
   create_sns_topic = true
   subscribers = {
