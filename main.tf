@@ -25,9 +25,10 @@ module "sns_topic" {
   count   = local.create_sns_topic ? 1 : 0
 
   attributes      = ["securityhub"]
-  context         = module.this.context
   subscribers     = {}
   sqs_dlq_enabled = false
+
+  context = module.this.context
 }
 
 module "imported_findings_label" {
