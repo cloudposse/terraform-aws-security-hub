@@ -98,7 +98,7 @@ module "securityhub" {
 ## Examples
 
 Here is an example of using this module:
-- [`examples/complete`](https://github.com/cloudposse/terraform-aws-security-hub/) - complete example of using this module
+- [`examples/complete`](https://github.com/cloudposse/terraform-aws-security-hub/tree/master/examples/complete/) - complete example of using this module
 
 
 

@@ -18,6 +18,7 @@ resource "aws_securityhub_standards_subscription" "this" {
 #-----------------------------------------------------------------------------------------------------------------------
 # Optionally configure Event Bridge Rules and SNS subscriptions 
 # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cwe-integration-types.html
+# https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/resource-based-policies-cwe.html#sns-permissions
 #-----------------------------------------------------------------------------------------------------------------------
 module "sns_topic" {
   source  = "cloudposse/sns-topic/aws"
@@ -25,7 +26,7 @@ module "sns_topic" {
   count   = local.create_sns_topic ? 1 : 0
 
   attributes      = ["securityhub"]
-  subscribers     = {}
+  subscribers     = var.subscribers
   sqs_dlq_enabled = false
 
   context = module.this.context
@@ -37,6 +38,29 @@ module "imported_findings_label" {
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context
+}
+
+resource "aws_sns_topic_policy" "sns_topic_publish_policy" {
+  count  = module.this.enabled && local.create_sns_topic ? 1 : 0
+  arn    = local.imported_findings_notification_arn
+  policy = data.aws_iam_policy_document.sns_topic_policy[0].json
+}
+
+data "aws_iam_policy_document" "sns_topic_policy" {
+  count     = module.this.enabled && local.create_sns_topic ? 1 : 0
+  policy_id = "SecurityHubPublishToSNS"
+  statement {
+    sid = ""
+    actions = [
+      "sns:Publish"
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["cloudwatch.amazonaws.com"]
+    }
+    resources = [module.sns_topic[0].sns_topic.arn]
+    effect    = "Allow"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "imported_findings" {
