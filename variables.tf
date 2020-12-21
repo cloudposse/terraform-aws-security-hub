@@ -5,11 +5,8 @@
 
 variable "member_accounts" {
   description = "List of AWS Accounts to add as members to this account's SecurityHub configuration."
-  type = list(object({
-    account = string
-    email   = string
-  }))
-  default = []
+  type        = map
+  default     = []
 }
 
 variable "enabled_standards" {

@@ -7,7 +7,7 @@ resource "aws_securityhub_account" "this" {
 
 resource "aws_securityhub_member" "member" {
   depends_on = [aws_securityhub_account.this]
-  for_each   = { for member in var.member_accounts : member.account_id => member.email }
+  for_each   = var.member_accounts
 
   account_id = each.key
   email      = each.value
