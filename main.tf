@@ -5,6 +5,15 @@ resource "aws_securityhub_account" "this" {
   count = module.this.enabled ? 1 : 0
 }
 
+resource "aws_securityhub_member" "member" {
+  depends_on = [aws_securityhub_account.this]
+  for_each   = { for member in var.member_accounts : member.account_id => member.email }
+
+  account_id = each.key
+  email      = each.value
+  invite     = true
+}
+
 #-----------------------------------------------------------------------------------------------------------------------
 # Optionally subscribe to Security Hub Standards 
 # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html

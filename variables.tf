@@ -3,6 +3,15 @@
 # These variables have defaults set that can be overridden for desired behavior.
 #-----------------------------------------------------------------------------------------------------------------------
 
+variable "member_accounts" {
+  description = "List of AWS Accounts to add as members to this account's SecurityHub configuration."
+  type = list(object({
+    account = string
+    email   = string
+  }))
+  default = []
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable
