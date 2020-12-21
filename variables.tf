@@ -6,7 +6,7 @@
 variable "member_accounts" {
   description = "List of AWS Accounts to add as members to this account's SecurityHub configuration."
   type        = map
-  default     = []
+  default     = {}
 }
 
 variable "enabled_standards" {
