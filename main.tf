@@ -11,7 +11,7 @@ resource "aws_securityhub_member" "member" {
 
   account_id = each.key
   email      = each.value
-  invite     = true
+  invite     = false
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
