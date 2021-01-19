@@ -34,7 +34,7 @@ module "sns_topic" {
 
 module "imported_findings_label" {
   source  = "cloudposse/label/null"
-  version = "0.21.0"
+  version = "0.22.1"
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context
