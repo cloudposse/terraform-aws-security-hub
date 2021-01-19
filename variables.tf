@@ -15,7 +15,7 @@ variable "enabled_standards" {
     - ruleset/cis-aws-foundations-benchmark/v/1.2.0
     - standards/pci-dss/v/3.2.1
   DOC
-  type        = list
+  type        = list(any)
   default     = []
 }
 
