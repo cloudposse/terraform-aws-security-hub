@@ -22,7 +22,7 @@ resource "aws_securityhub_standards_subscription" "this" {
 #-----------------------------------------------------------------------------------------------------------------------
 module "sns_topic" {
   source  = "cloudposse/sns-topic/aws"
-  version = "0.11.0"
+  version = "0.16.0"
   count   = local.create_sns_topic ? 1 : 0
 
   attributes      = ["securityhub"]
