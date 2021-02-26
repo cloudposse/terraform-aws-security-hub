@@ -16,8 +16,8 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| imported_findings_label | cloudposse/label/null | 0.22.1 |
-| sns_topic | cloudposse/sns-topic/aws | 0.11.0 |
+| imported_findings_label | cloudposse/label/null | 0.24.1 |
+| sns_topic | cloudposse/sns-topic/aws | 0.14.0 |
 | this | cloudposse/label/null | 0.24.1 |
 
 ## Resources
