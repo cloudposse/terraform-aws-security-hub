@@ -29,7 +29,7 @@ module "sns_topic" {
   subscribers     = var.subscribers
   sqs_dlq_enabled = false
 
-  sns_topic_policy_json = data.aws_iam_policy_document.sns_topic_policy[0].json
+  allowed_aws_services_for_sns_published = ["cloudwatch.amazonaws.com"]
 
   context = module.this.context
 }
@@ -40,22 +40,6 @@ module "imported_findings_label" {
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context
-}
-
-data "aws_iam_policy_document" "sns_topic_policy" {
-  count     = module.this.enabled && local.create_sns_topic ? 1 : 0
-  policy_id = "SecurityHubPublishToSNS"
-  statement {
-    actions = [
-      "sns:Publish"
-    ]
-    principals {
-      type        = "Service"
-      identifiers = ["cloudwatch.amazonaws.com"]
-    }
-    resources = [module.sns_topic[0].sns_topic.arn]
-    effect    = "Allow"
-  }
 }
 
 resource "aws_cloudwatch_event_rule" "imported_findings" {
