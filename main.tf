@@ -22,45 +22,24 @@ resource "aws_securityhub_standards_subscription" "this" {
 #-----------------------------------------------------------------------------------------------------------------------
 module "sns_topic" {
   source  = "cloudposse/sns-topic/aws"
-  version = "0.11.0"
+  version = "0.16.0"
   count   = local.create_sns_topic ? 1 : 0
 
   attributes      = ["securityhub"]
   subscribers     = var.subscribers
   sqs_dlq_enabled = false
 
+  allowed_aws_services_for_sns_published = ["cloudwatch.amazonaws.com"]
+
   context = module.this.context
 }
 
 module "imported_findings_label" {
   source  = "cloudposse/label/null"
-  version = "0.22.1"
+  version = "0.24.1"
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context
-}
-
-resource "aws_sns_topic_policy" "sns_topic_publish_policy" {
-  count  = module.this.enabled && local.create_sns_topic ? 1 : 0
-  arn    = local.imported_findings_notification_arn
-  policy = data.aws_iam_policy_document.sns_topic_policy[0].json
-}
-
-data "aws_iam_policy_document" "sns_topic_policy" {
-  count     = module.this.enabled && local.create_sns_topic ? 1 : 0
-  policy_id = "SecurityHubPublishToSNS"
-  statement {
-    sid = ""
-    actions = [
-      "sns:Publish"
-    ]
-    principals {
-      type        = "Service"
-      identifiers = ["cloudwatch.amazonaws.com"]
-    }
-    resources = [module.sns_topic[0].sns_topic.arn]
-    effect    = "Allow"
-  }
 }
 
 resource "aws_cloudwatch_event_rule" "imported_findings" {
