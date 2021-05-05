@@ -29,6 +29,8 @@ module "sns_topic" {
   subscribers     = var.subscribers
   sqs_dlq_enabled = false
 
+  sns_topic_policy_json = data.aws_iam_policy_document.sns_topic_policy[0].json
+
   context = module.this.context
 }
 
@@ -40,15 +42,9 @@ module "imported_findings_label" {
   context    = module.this.context
 }
 
-resource "aws_sns_topic_policy" "sns_topic_publish_policy" {
-  count  = module.this.enabled && local.create_sns_topic ? 1 : 0
-  arn    = local.imported_findings_notification_arn
-  policy = data.aws_iam_policy_document.sns_topic_policy[0].json
-}
-
 data "aws_iam_policy_document" "sns_topic_policy" {
   count     = module.this.enabled && local.create_sns_topic ? 1 : 0
-  
+  policy_id = "SecurityHubPublishToSNS"
   statement {
     actions = [
       "sns:Publish"
