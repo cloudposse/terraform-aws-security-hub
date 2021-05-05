@@ -48,9 +48,8 @@ resource "aws_sns_topic_policy" "sns_topic_publish_policy" {
 
 data "aws_iam_policy_document" "sns_topic_policy" {
   count     = module.this.enabled && local.create_sns_topic ? 1 : 0
-  policy_id = "SecurityHubPublishToSNS"
+  
   statement {
-    sid = ""
     actions = [
       "sns:Publish"
     ]
