@@ -160,8 +160,8 @@ Available targets:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_imported_findings_label"></a> [imported\_findings\_label](#module\_imported\_findings\_label) | cloudposse/label/null | 0.22.1 |
-| <a name="module_sns_topic"></a> [sns\_topic](#module\_sns\_topic) | cloudposse/sns-topic/aws | 0.11.0 |
+| <a name="module_imported_findings_label"></a> [imported\_findings\_label](#module\_imported\_findings\_label) | cloudposse/label/null | 0.24.1 |
+| <a name="module_sns_topic"></a> [sns\_topic](#module\_sns\_topic) | cloudposse/sns-topic/aws | 0.16.0 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
 
 ## Resources
