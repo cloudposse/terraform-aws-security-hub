@@ -61,7 +61,7 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 ## Introduction
 
-This module enables AWS Security Hub in one region of one account and optionally sets up an SNS topic to receive 
+This module enables AWS Security Hub in one region of one account and optionally sets up an SNS topic to receive
 notifications of its findings.
 
 
@@ -108,13 +108,16 @@ Here's how to invoke this module in your projects:
 ```hcl
 module "securityhub" {
   source = "cloudposse/security-hub/aws"
-  
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
   create_sns_topic = true
   subscribers = {
     opsgenie = {
-      protocol = "https"
-      endpoint = "https://api.example.com/v1/"
+      protocol               = "https"
+      endpoint               = "https://api.example.com/v1/"
       endpoint_auto_confirms = true
+      raw_message_delivery   = false
     }
   }
 }
@@ -308,7 +311,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2020-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
