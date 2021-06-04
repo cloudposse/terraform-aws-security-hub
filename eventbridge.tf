@@ -30,7 +30,7 @@ module "sns_kms_key" {
 data "aws_iam_policy_document" "sns_kms_key_policy" {
   count = local.create_sns_topic ? 1 : 0
 
-  policy_id = "EventBridgeDecrypt"
+  policy_id = "EventBridgeEncryptUsingKey"
 
   statement {
     effect = "Allow"
