@@ -8,8 +8,9 @@
 module "sns_kms_key_label" {
   source  = "cloudposse/label/null"
   version = "0.24.1"
+  count   = local.create_sns_topic ? 1 : 0
 
-  attributes = ["securityhub-sns-kms-key"]
+  attributes = ["securityhub"]
   context    = module.this.context
 }
 
@@ -18,7 +19,7 @@ module "sns_kms_key" {
   version = "0.10.0"
   count   = local.create_sns_topic ? 1 : 0
 
-  name                = module.sns_kms_key_label.id
+  name                = local.create_sns_topic ? module.sns_kms_key_label[0].id : ""
   description         = "KMS key for the security-hub Imported Findings SNS topic"
   enable_key_rotation = true
   alias               = "alias/security-hub-sns"
