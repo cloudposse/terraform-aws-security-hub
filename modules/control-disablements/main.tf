@@ -37,7 +37,7 @@ locals {
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.22",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/2.5",
   ]
-  included_global_region_controls = [for c in local.all_global_region_controls : c if ! local.is_global_resource_region]
+  included_global_region_controls = local.is_global_resource_region ? [] : local.all_global_region_controls
 
   all_cloudtrail_controls = [
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.1",
@@ -57,7 +57,7 @@ locals {
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/3.13",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/3.14",
   ]
-  included_cloudtrail_controls = [for r in local.all_cloudtrail_controls : r if ! local.is_central_cloudtrail_account]
+  included_cloudtrail_controls = local.is_central_cloudtrail_account ? [] : local.all_cloudtrail_controls
 
   included_controls = concat(local.included_global_region_controls, local.included_cloudtrail_controls)
 }
