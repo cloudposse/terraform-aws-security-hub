@@ -55,7 +55,7 @@ locals {
     "arn:aws:securityhub:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:control/cis-aws-foundations-benchmark/v/1.2.0/3.13",
     "arn:aws:securityhub:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:control/cis-aws-foundations-benchmark/v/1.2.0/3.14",
   ]
-  included_cloudtrail_controls = [for r in local.all_cloudtrail_controls : r if local.is_cloudtrail_resource_region]
+  included_cloudtrail_controls = [for r in local.all_cloudtrail_controls : r if local.is_central_cloudtrail_account]
 
   included_controls = concat(local.included_global_region_controls, local.included_cloudtrail_controls)
 }
