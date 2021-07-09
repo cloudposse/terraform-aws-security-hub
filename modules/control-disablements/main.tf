@@ -7,7 +7,7 @@ data "aws_region" "this" {}
 
 locals {
   is_global_resource_region     = data.aws_region.this.name == var.global_resource_collector_region
-  is_central_cloudtrail_account = data.aws_caller_identity.this.account_id == var.central_logging_account
+  is_central_cloudtrail_account = data.aws_caller_identity.this.account_id == var.central_logging_account && local.is_global_resource_region
   control_prefix                = "arn:${data.aws_partition.this.id}:securityhub:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:control"
 
   all_global_region_controls = [
