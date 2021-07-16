@@ -10,12 +10,18 @@ locals {
   is_central_cloudtrail_account = data.aws_caller_identity.this.account_id == var.central_logging_account && local.is_global_resource_region
   control_prefix                = "arn:${data.aws_partition.this.id}:securityhub:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:control"
 
+  # These controls are not supported in ap-northeast-3 (AN3), so we have to do some trickery to exclude them.
+  an3_excluded_controls = [
+    "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.4",
+    "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.12",
+    "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.20"
+  ]
+
   all_global_region_controls = [
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/Config.1",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.1",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.2",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.3",
-    "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.4",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.5",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.6",
     "${local.control_prefix}/aws-foundational-security-best-practices/v/1.0.0/IAM.7",
@@ -29,15 +35,13 @@ locals {
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.9",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.10",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.11",
-    "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.12",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.13",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.14",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.16",
-    "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.20",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.22",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/2.5",
   ]
-  included_global_region_controls = local.is_global_resource_region ? [] : local.all_global_region_controls
+  included_global_region_controls = local.is_global_resource_region ? [] : (data.aws_region.this.name == "ap-northeast-3" ? local.local.all_global_region_controls : concat(local.an3_excluded_controls, local.local.all_global_region_controls))
 
   all_cloudtrail_controls = [
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.1",
