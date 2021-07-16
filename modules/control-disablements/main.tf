@@ -41,7 +41,7 @@ locals {
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.22",
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/2.5",
   ]
-  included_global_region_controls = local.is_global_resource_region ? [] : (data.aws_region.this.name == "ap-northeast-3" ? local.local.all_global_region_controls : concat(local.an3_excluded_controls, local.local.all_global_region_controls))
+  included_global_region_controls = local.is_global_resource_region ? [] : (data.aws_region.this.name == "ap-northeast-3" ? local.all_global_region_controls : concat(local.an3_excluded_controls, local.all_global_region_controls))
 
   all_cloudtrail_controls = [
     "${local.control_prefix}/cis-aws-foundations-benchmark/v/1.2.0/1.1",
