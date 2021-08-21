@@ -7,7 +7,7 @@
 
 module "sns_kms_key_label" {
   source  = "cloudposse/label/null"
-  version = "0.24.1"
+  version = "0.25.0"
   count   = local.create_sns_topic ? 1 : 0
 
   attributes = ["securityhub"]
@@ -78,7 +78,7 @@ module "sns_topic" {
 
 module "imported_findings_label" {
   source  = "cloudposse/label/null"
-  version = "0.24.1"
+  version = "0.25.0"
 
   attributes = ["securityhub-imported-findings"]
   context    = module.this.context
