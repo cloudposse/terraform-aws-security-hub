@@ -49,7 +49,7 @@ variable "imported_findings_notification_arn" {
   description = <<-DOC
   The ARN for an SNS topic to send findings notifications to. This is only used if create_sns_topic is false.
 
-  If you want to send findings to an existing SNS topic, set the value of this to the ARN of the existing topic and set 
+  If you want to send findings to an existing SNS topic, set the value of this to the ARN of the existing topic and set
   create_sns_topic to false.
   DOC
   default     = null
@@ -58,11 +58,22 @@ variable "imported_findings_notification_arn" {
 
 variable "cloudwatch_event_rule_pattern_detail_type" {
   description = <<-DOC
-  The detail-type pattern used to match events that will be sent to SNS. 
+  The detail-type pattern used to match events that will be sent to SNS.
 
   For more information, see:
   https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
   DOC
   type        = string
   default     = "Security Hub Findings - Imported"
+}
+
+variable "activate_organisation_auto_enable" {
+  description = <<-DOC
+  Activate the AWS Organization feature to automatically enable Security Hub for new accounts.
+
+  For more information, see:
+  https://docs.aws.amazon.com/securityhub/latest/userguide/accounts-orgs-auto-enable.html
+  DOC
+  type        = bool
+  default     = false
 }
