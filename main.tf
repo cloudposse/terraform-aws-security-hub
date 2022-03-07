@@ -16,7 +16,7 @@ resource "aws_securityhub_standards_subscription" "this" {
 }
 
 resource "aws_securityhub_organization_configuration" "this" {
-  count = var.activate_organisation_auto_enable ? 1 : 0
+  count       = var.activate_organisation_auto_enable ? 1 : 0
   auto_enable = var.activate_organisation_auto_enable
 }
 
