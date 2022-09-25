@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "sns_kms_key_policy" {
 
 module "sns_topic" {
   source  = "cloudposse/sns-topic/aws"
-  version = "0.20.1"
+  version = "0.20.2"
   count   = local.create_sns_topic ? 1 : 0
 
   attributes        = ["securityhub"]
