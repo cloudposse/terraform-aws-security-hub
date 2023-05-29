@@ -85,7 +85,7 @@ module "imported_findings_label" {
 }
 
 resource "aws_cloudwatch_event_rule" "imported_findings" {
-  count       = local.enable_notifications == true ? 1 : 0
+  count       = local.enabled && local.enable_notifications == true ? 1 : 0
   name        = module.imported_findings_label.id
   description = "SecurityHubEvent - Imported Findings"
   tags        = module.this.tags
@@ -103,7 +103,7 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
 }
 
 resource "aws_cloudwatch_event_target" "imported_findings" {
-  count = local.enable_notifications == true ? 1 : 0
+  count = local.enabled && local.enable_notifications ? 1 : 0
   rule  = aws_cloudwatch_event_rule.imported_findings[0].name
   arn   = local.imported_findings_notification_arn
 }

@@ -66,3 +66,40 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   type        = string
   default     = "Security Hub Findings - Imported"
 }
+
+variable "enable_finding_aggregator" {
+  description = <<-DOC
+  Flag to indicate whether a finding aggregator should be created
+
+  If you want to aggregate findings from one region, set this to `true`.
+
+  For more information, see:
+  https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_finding_aggregator
+  DOC
+
+  type    = bool
+  default = false
+}
+
+variable "finding_aggregator_linking_mode" {
+  description = <<-DOC
+  Linking mode to use for the finding aggregator. 
+
+  The possible values are: 
+    - `ALL_REGIONS` - Aggregate from all regions
+    - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregate from all regions except those specified in `var.finding_aggregator_regions`
+    - `SPECIFIED_REGIONS` - Aggregate from regions specified in `var.finding_aggregator_regions`
+  DOC
+  type        = string
+  default     = "ALL_REGIONS"
+}
+
+variable "finding_aggregator_regions" {
+  description = <<-DOC
+  A list of regions to aggregate findings from. 
+
+  This is only used if enable_finding_aggregator is `true`.
+  DOC
+  type        = list(string)
+  default     = []
+}
