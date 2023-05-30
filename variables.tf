@@ -103,3 +103,9 @@ variable "finding_aggregator_regions" {
   type        = list(string)
   default     = []
 }
+
+variable "enable_default_standards" {
+  description = "Flag to indicate whether default standards should be enabled"
+  type        = bool
+  default     = false
+}
