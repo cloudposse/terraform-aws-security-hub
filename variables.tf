@@ -3,6 +3,12 @@
 # These variables have defaults set that can be overridden for desired behavior.
 #-----------------------------------------------------------------------------------------------------------------------
 
+variable "enable_default_standards" {
+  description = "Flag to indicate whether default standards should be enabled"
+  type        = bool
+  default     = true
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable
@@ -65,12 +71,6 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   DOC
   type        = string
   default     = "Security Hub Findings - Imported"
-}
-
-variable "enable_default_standards" {
-  description = "Flag to indicate whether default standards should be enabled"
-  type        = bool
-  default     = false
 }
 
 variable "enable_finding_aggregator" {
