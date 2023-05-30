@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------------------------------------------------
-# Subscribe the Acccount to Security Hub
+# Subscribe the Account to Security Hub
 #-----------------------------------------------------------------------------------------------------------------------
 resource "aws_securityhub_account" "this" {
   count = local.enabled ? 1 : 0
@@ -17,11 +17,15 @@ resource "aws_securityhub_standards_subscription" "this" {
   standards_arn = each.key
 }
 
+#-----------------------------------------------------------------------------------------------------------------------
+# Optionally setup finding aggregator
+# https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html
+#-----------------------------------------------------------------------------------------------------------------------
 resource "aws_securityhub_finding_aggregator" "this" {
   count = local.enabled && var.enable_finding_aggregator ? 1 : 0
 
   linking_mode      = var.finding_aggregator_linking_mode
-  specified_regions = var.finding_aggregator_regions
+  specified_regions = var.finding_aggregator_linking_mode == "ALL_REGIONS" ? null : var.finding_aggregator_regions
 
   depends_on = [aws_securityhub_account.this]
 }

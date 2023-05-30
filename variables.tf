@@ -67,6 +67,12 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   default     = "Security Hub Findings - Imported"
 }
 
+variable "enable_default_standards" {
+  description = "Flag to indicate whether default standards should be enabled"
+  type        = bool
+  default     = false
+}
+
 variable "enable_finding_aggregator" {
   description = <<-DOC
   Flag to indicate whether a finding aggregator should be created
@@ -102,10 +108,4 @@ variable "finding_aggregator_regions" {
   DOC
   type        = list(string)
   default     = []
-}
-
-variable "enable_default_standards" {
-  description = "Flag to indicate whether default standards should be enabled"
-  type        = bool
-  default     = false
 }
