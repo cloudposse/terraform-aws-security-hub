@@ -104,7 +104,7 @@ variable "finding_aggregator_regions" {
   description = <<-DOC
   A list of regions to aggregate findings from. 
 
-  This is only used if enable_finding_aggregator is `true`.
+  This is only used if `finding_aggregator_enabled` is `true`.
   DOC
   type        = list(string)
   default     = []
