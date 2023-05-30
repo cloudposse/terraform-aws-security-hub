@@ -73,7 +73,7 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   default     = "Security Hub Findings - Imported"
 }
 
-variable "enable_finding_aggregator" {
+variable "finding_aggregator_enabled" {
   description = <<-DOC
   Flag to indicate whether a finding aggregator should be created
 
@@ -94,7 +94,7 @@ variable "finding_aggregator_linking_mode" {
   The possible values are: 
     - `ALL_REGIONS` - Aggregate from all regions
     - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregate from all regions except those specified in `var.finding_aggregator_regions`
-    - `SPECIFIED_REGIONS` - Aggregate from regions specified in `var.finding_aggregator_regions`
+    - `SPECIFIED_REGIONS` - Aggregate from regions specified in `finding_aggregator_enabled`
   DOC
   type        = string
   default     = "ALL_REGIONS"
