@@ -3,6 +3,12 @@
 # These variables have defaults set that can be overridden for desired behavior.
 #-----------------------------------------------------------------------------------------------------------------------
 
+variable "enable_default_standards" {
+  description = "Flag to indicate whether default standards should be enabled"
+  type        = bool
+  default     = true
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable
@@ -65,4 +71,41 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   DOC
   type        = string
   default     = "Security Hub Findings - Imported"
+}
+
+variable "finding_aggregator_enabled" {
+  description = <<-DOC
+  Flag to indicate whether a finding aggregator should be created
+
+  If you want to aggregate findings from one region, set this to `true`.
+
+  For more information, see:
+  https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_finding_aggregator
+  DOC
+
+  type    = bool
+  default = false
+}
+
+variable "finding_aggregator_linking_mode" {
+  description = <<-DOC
+  Linking mode to use for the finding aggregator. 
+
+  The possible values are: 
+    - `ALL_REGIONS` - Aggregate from all regions
+    - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregate from all regions except those specified in `var.finding_aggregator_regions`
+    - `SPECIFIED_REGIONS` - Aggregate from regions specified in `finding_aggregator_enabled`
+  DOC
+  type        = string
+  default     = "ALL_REGIONS"
+}
+
+variable "finding_aggregator_regions" {
+  description = <<-DOC
+  A list of regions to aggregate findings from. 
+
+  This is only used if `finding_aggregator_enabled` is `true`.
+  DOC
+  type        = list(string)
+  default     = []
 }
