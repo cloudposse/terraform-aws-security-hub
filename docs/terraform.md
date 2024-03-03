@@ -19,7 +19,7 @@
 | <a name="module_imported_findings_label"></a> [imported\_findings\_label](#module\_imported\_findings\_label) | cloudposse/label/null | 0.25.0 |
 | <a name="module_sns_kms_key"></a> [sns\_kms\_key](#module\_sns\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
 | <a name="module_sns_kms_key_label"></a> [sns\_kms\_key\_label](#module\_sns\_kms\_key\_label) | cloudposse/label/null | 0.25.0 |
-| <a name="module_sns_topic"></a> [sns\_topic](#module\_sns\_topic) | cloudposse/sns-topic/aws | 0.20.1 |
+| <a name="module_sns_topic"></a> [sns\_topic](#module\_sns\_topic) | cloudposse/sns-topic/aws | 0.21.0 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
 ## Resources
