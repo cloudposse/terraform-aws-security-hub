@@ -73,6 +73,17 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   default     = "Security Hub Findings - Imported"
 }
 
+variable "cloudwatch_event_rule_pattern_detail" {
+  description = <<-DOC
+  The detail pattern used to match events that will be sent to SNS. 
+
+  For more information, see:
+  https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
+  DOC
+  type        = object()
+  default     = null
+}
+
 variable "finding_aggregator_enabled" {
   description = <<-DOC
   Flag to indicate whether a finding aggregator should be created
