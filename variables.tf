@@ -9,6 +9,19 @@ variable "enable_default_standards" {
   default     = true
 }
 
+variable "control_finding_generator" {
+  description = "Updates whether the calling account has consolidated control findings turned on.
+  If the value for this field is set to ,
+  
+  SECURITY_CONTROL - Security Hub generates a single finding for a control check even when
+  the check applies to multiple enabled standards.
+
+  STANDARD_CONTROL - Security Hub generates separate findings for a control check when the 
+  check applies to multiple enabled standards."
+  type        = string
+  default     = "SECURITY_CONTROL"
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable
