@@ -1,7 +1,7 @@
 
 # Summary
 
-There are certain controls that it only make sense to monitor once per account, not once per region per account.
+There are certain controls that only make sense to monitor once per account, not once per region per account.
 As an example, imagine you wanted to verify an IAM Role exists for a given account. That wouldn't need
 to be verified in each region for the account. As such, this module takes your current AWS Provider configuration
 and uses it to generate and output a list of controls to disable.
