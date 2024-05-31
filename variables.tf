@@ -9,6 +9,21 @@ variable "enable_default_standards" {
   default     = true
 }
 
+variable "control_finding_generator" {
+  description = <<-DOC
+  Updates whether the calling account has consolidated control findings turned on.
+  If the value for this field is set to ,
+
+  SECURITY_CONTROL - Security Hub generates a single finding for a control check even when
+  the check applies to multiple enabled standards.
+
+  STANDARD_CONTROL - Security Hub generates separate findings for a control check when the
+  check applies to multiple enabled standards.
+  DOC
+  type        = string
+  default     = "SECURITY_CONTROL"
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable
@@ -55,7 +70,7 @@ variable "imported_findings_notification_arn" {
   description = <<-DOC
   The ARN for an SNS topic to send findings notifications to. This is only used if create_sns_topic is false.
 
-  If you want to send findings to an existing SNS topic, set the value of this to the ARN of the existing topic and set 
+  If you want to send findings to an existing SNS topic, set the value of this to the ARN of the existing topic and set
   create_sns_topic to false.
   DOC
   default     = null
@@ -64,13 +79,24 @@ variable "imported_findings_notification_arn" {
 
 variable "cloudwatch_event_rule_pattern_detail_type" {
   description = <<-DOC
-  The detail-type pattern used to match events that will be sent to SNS. 
+  The detail-type pattern used to match events that will be sent to SNS.
 
   For more information, see:
   https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
   DOC
   type        = string
   default     = "Security Hub Findings - Imported"
+}
+
+variable "cloudwatch_event_rule_pattern_detail" {
+  description = <<-DOC
+  The detail pattern used to match events that will be sent to SNS.
+
+  For more information, see:
+  https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
+  DOC
+  type        = any
+  default     = null
 }
 
 variable "finding_aggregator_enabled" {
@@ -89,9 +115,9 @@ variable "finding_aggregator_enabled" {
 
 variable "finding_aggregator_linking_mode" {
   description = <<-DOC
-  Linking mode to use for the finding aggregator. 
+  Linking mode to use for the finding aggregator.
 
-  The possible values are: 
+  The possible values are:
     - `ALL_REGIONS` - Aggregate from all regions
     - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregate from all regions except those specified in `var.finding_aggregator_regions`
     - `SPECIFIED_REGIONS` - Aggregate from regions specified in `finding_aggregator_enabled`
@@ -102,7 +128,7 @@ variable "finding_aggregator_linking_mode" {
 
 variable "finding_aggregator_regions" {
   description = <<-DOC
-  A list of regions to aggregate findings from. 
+  A list of regions to aggregate findings from.
 
   This is only used if `finding_aggregator_enabled` is `true`.
   DOC
