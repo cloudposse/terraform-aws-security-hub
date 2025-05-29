@@ -4,7 +4,8 @@
 resource "aws_securityhub_account" "this" {
   count = local.enabled ? 1 : 0
 
-  enable_default_standards = var.enable_default_standards
+  enable_default_standards  = var.enable_default_standards
+  control_finding_generator = var.control_finding_generator
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
