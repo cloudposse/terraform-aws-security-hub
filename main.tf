@@ -4,7 +4,8 @@
 resource "aws_securityhub_account" "this" {
   count = local.enabled ? 1 : 0
 
-  enable_default_standards = var.enable_default_standards
+  control_finding_generator = var.control_finding_generator
+  enable_default_standards  = var.enable_default_standards
 }
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -26,6 +27,16 @@ resource "aws_securityhub_finding_aggregator" "this" {
 
   linking_mode      = var.finding_aggregator_linking_mode
   specified_regions = var.finding_aggregator_linking_mode == "ALL_REGIONS" ? null : var.finding_aggregator_regions
+
+  depends_on = [aws_securityhub_account.this]
+}
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Optionally delegate control to a security account
+# https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html
+#-----------------------------------------------------------------------------------------------------------------------
+resource "aws_securityhub_organization_admin_account" "this" {
+  admin_account_id = var.delegation_account_id
 
   depends_on = [aws_securityhub_account.this]
 }
