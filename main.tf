@@ -36,6 +36,8 @@ resource "aws_securityhub_finding_aggregator" "this" {
 # https://docs.aws.amazon.com/securityhub/latest/userguide/designate-orgs-admin-account.html
 #-----------------------------------------------------------------------------------------------------------------------
 resource "aws_securityhub_organization_admin_account" "this" {
+  count = var.delegation_account_id != "" ? 1 : 0
+
   admin_account_id = var.delegation_account_id
 
   depends_on = [aws_securityhub_account.this]

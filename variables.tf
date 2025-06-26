@@ -137,4 +137,5 @@ variable "delegation_account_id" {
   Designate a delegated account as the Security Hub administrator
   DOC
   type        = string #String as num can trim off leading zeros
+  default     = ""
 }
