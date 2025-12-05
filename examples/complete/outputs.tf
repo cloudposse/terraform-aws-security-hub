@@ -4,5 +4,6 @@ output "enabled_subscriptions" {
 }
 
 output "sns_topic" {
-  value = module.example.sns_topic
+  description = "SNS Topic"
+  value       = module.example.sns_topic
 }
