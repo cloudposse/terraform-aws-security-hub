@@ -91,14 +91,19 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
   tags        = module.this.tags
 
   event_pattern = jsonencode(
-    {
-      "source" : [
-        "aws.securityhub"
-      ],
-      "detail-type" : [
-        var.cloudwatch_event_rule_pattern_detail_type
-      ]
-    }
+    merge(
+      {
+        "source" : [
+          "aws.securityhub"
+        ],
+        "detail-type" : [
+          var.cloudwatch_event_rule_pattern_detail_type
+        ]
+      },
+      var.cloudwatch_event_rule_pattern_detail != null ?
+      { "detail" : var.cloudwatch_event_rule_pattern_detail } :
+      {}
+    )
   )
 }
 
