@@ -73,6 +73,23 @@ variable "cloudwatch_event_rule_pattern_detail_type" {
   default     = "Security Hub Findings - Imported"
 }
 
+variable "finding_severity_labels" {
+  description = <<-DOC
+  A list of finding severity labels used to filter which Security Hub findings
+  are forwarded to notifications, e.g. `["CRITICAL", "HIGH"]`.
+
+  When empty (the default), findings of all severities matching
+  `cloudwatch_event_rule_pattern_detail_type` are forwarded, preserving prior
+  behavior. When set, only findings whose `Severity.Label` is in the list are
+  forwarded.
+
+  For the list of valid severity labels, see:
+  https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_Severity.html
+  DOC
+  type        = list(string)
+  default     = []
+}
+
 variable "finding_aggregator_enabled" {
   description = <<-DOC
   Flag to indicate whether a finding aggregator should be created

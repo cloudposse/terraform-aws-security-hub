@@ -90,15 +90,32 @@ resource "aws_cloudwatch_event_rule" "imported_findings" {
   description = "SecurityHubEvent - Imported Findings"
   tags        = module.this.tags
 
+  # When `finding_severity_labels` is set, additionally filter on the finding
+  # severity so only matching findings are forwarded. `findings` is an array;
+  # EventBridge applies the nested pattern to each element and matches when any
+  # element satisfies it. Left empty (the default), the `detail` block is
+  # omitted entirely and all findings matching the detail-type are forwarded,
+  # preserving prior behavior.
   event_pattern = jsonencode(
-    {
-      "source" : [
-        "aws.securityhub"
-      ],
-      "detail-type" : [
-        var.cloudwatch_event_rule_pattern_detail_type
-      ]
-    }
+    merge(
+      {
+        "source" : [
+          "aws.securityhub"
+        ],
+        "detail-type" : [
+          var.cloudwatch_event_rule_pattern_detail_type
+        ]
+      },
+      length(var.finding_severity_labels) > 0 ? {
+        "detail" : {
+          "findings" : {
+            "Severity" : {
+              "Label" : var.finding_severity_labels
+            }
+          }
+        }
+      } : {}
+    )
   )
 }
 
