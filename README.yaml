@@ -79,6 +79,9 @@ usage: |2-
     # version     = "x.x.x"
 
     create_sns_topic = true
+    # Optional: one consolidated finding per control check across standards.
+    # In an organization, set it on the delegated administrator only.
+    control_finding_generator = "SECURITY_CONTROL"
     subscribers = {
       opsgenie = {
         protocol               = "https"

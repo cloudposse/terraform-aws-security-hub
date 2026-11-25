@@ -9,6 +9,23 @@ variable "enable_default_standards" {
   default     = true
 }
 
+variable "control_finding_generator" {
+  type        = string
+  description = <<-DOC
+    Whether the account generates consolidated control findings. `SECURITY_CONTROL` generates one finding per
+    control check across all enabled standards; `STANDARD_CONTROL` generates one finding per standard.
+    In an organization only the delegated administrator can set it, and member accounts follow its setting.
+    `null` (default) leaves the current account setting unchanged.
+    See https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html
+  DOC
+  default     = null
+
+  validation {
+    condition     = var.control_finding_generator == null ? true : contains(["SECURITY_CONTROL", "STANDARD_CONTROL"], var.control_finding_generator)
+    error_message = "control_finding_generator must be null, SECURITY_CONTROL or STANDARD_CONTROL."
+  }
+}
+
 variable "enabled_standards" {
   description = <<-DOC
   A list of standards/rulesets to enable

@@ -14,3 +14,9 @@ variable "create_sns_topic" {
   type        = bool
   default     = false
 }
+
+variable "control_finding_generator" {
+  type        = string
+  description = "Consolidated control findings setting: SECURITY_CONTROL, STANDARD_CONTROL or null"
+  default     = null
+}
